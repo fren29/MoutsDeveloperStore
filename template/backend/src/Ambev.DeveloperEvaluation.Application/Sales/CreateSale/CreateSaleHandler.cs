@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
