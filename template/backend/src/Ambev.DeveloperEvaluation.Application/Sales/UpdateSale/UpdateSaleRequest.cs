@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale
 {
-    class Class1
+    public class UpdateSaleRequest : IRequest<UpdateSaleResponse>
     {
+        public Guid Id { get; set; }
     }
 }

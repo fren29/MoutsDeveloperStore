@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale
 {
-    class Class1
+    public class UpdateSaleResponse
     {
+        public UpdateSaleResponse(Guid id)
+        {
+            Id = id;
+        }
+
+        public Guid Id { get; set; }
     }
 }
