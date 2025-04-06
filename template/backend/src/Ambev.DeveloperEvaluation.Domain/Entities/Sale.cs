@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Ambev.DeveloperEvaluation.Domain.Common;
-using Ambev.DeveloperEvaluation.Domain.Enums;
+﻿using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Events;
 using Ambev.DeveloperEvaluation.Domain.Exceptions;
+using Ambev.DeveloperEvaluation.Domain.Common;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
@@ -16,7 +14,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public Guid BranchId { get; set; }
         public string BranchName { get; set; } = string.Empty;
 
-        //public SaleStatus Status { get; set; } = SaleStatus.Active;
+        public SaleStatus Status { get; set; } = SaleStatus.Active;
 
         public List<SaleItem> Items { get; set; } = new();
 
@@ -59,11 +57,11 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             DomainEvents.Add(new SaleModifiedEvent(Id));
         }
 
-        //public void Cancel()
-        //{
-        //    Status = SaleStatus.Cancelled;
-        //    DomainEvents.Add(new SaleCancelledEvent(Id));
-        //}
+        public void Cancel()
+        {
+            Status = SaleStatus.Cancelled;
+            DomainEvents.Add(new SaleCancelledEvent(Id));
+        }
 
         private decimal CalculateTotal()
         {

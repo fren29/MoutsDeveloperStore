@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 {
-    class CreateSaleHandler
+    class class2
     {
     }
 }
