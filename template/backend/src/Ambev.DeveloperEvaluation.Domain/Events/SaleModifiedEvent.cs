@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ambev.DeveloperEvaluation.Domain.Common;
 
 namespace Ambev.DeveloperEvaluation.Domain.Events
 {
-    class SaleModifiedEvent
-    {
-    }
+    public record SaleModifiedEvent(Guid SaleId) : IDomainEvent;
 }

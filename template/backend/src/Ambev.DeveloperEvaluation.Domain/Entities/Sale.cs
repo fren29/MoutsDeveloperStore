@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Enums;
+using Ambev.DeveloperEvaluation.Domain.Events;
 using Ambev.DeveloperEvaluation.Domain.Exceptions;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
-    public class Sale
+    public class Sale : BaseEntity
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
         public string SaleNumber { get; set; } = string.Empty;
         public DateTime Date { get; set; } = DateTime.UtcNow;
         public Guid CustomerId { get; set; }
@@ -17,7 +18,9 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 
         //public SaleStatus Status { get; set; } = SaleStatus.Active;
 
-        public List<SaleItem> Items { get; set; } = [];
+        public List<SaleItem> Items { get; set; } = new();
+
+        public List<IDomainEvent> DomainEvents { get; private set; } = new();
 
         public decimal TotalAmount => CalculateTotal();
 
@@ -46,6 +49,22 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             Items.Add(item);
         }
 
+        public void RegisterCreatedEvent()
+        {
+            DomainEvents.Add(new SaleCreatedEvent(Id));
+        }
+
+        public void RegisterModifiedEvent()
+        {
+            DomainEvents.Add(new SaleModifiedEvent(Id));
+        }
+
+        //public void Cancel()
+        //{
+        //    Status = SaleStatus.Cancelled;
+        //    DomainEvents.Add(new SaleCancelledEvent(Id));
+        //}
+
         private decimal CalculateTotal()
         {
             decimal total = 0;
@@ -56,10 +75,5 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             }
             return total;
         }
-
-        //public void Cancel()
-        //{
-        //    Status = SaleStatus.Cancelled;
-        //}
     }
 }
