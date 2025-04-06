@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ambev.DeveloperEvaluation.Domain.Enums
+﻿namespace Ambev.DeveloperEvaluation.Domain.Enums
 {
-    class SaleStatus
+    public enum SaleStatus
     {
+        Active = 1,
+        Cancelled = 2
     }
 }

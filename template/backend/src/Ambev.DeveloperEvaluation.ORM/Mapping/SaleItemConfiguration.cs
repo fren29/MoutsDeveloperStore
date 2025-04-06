@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.ORM.Mapping
 {
-    class Class1
+    class SaleItemConfiguration
     {
     }
 }
