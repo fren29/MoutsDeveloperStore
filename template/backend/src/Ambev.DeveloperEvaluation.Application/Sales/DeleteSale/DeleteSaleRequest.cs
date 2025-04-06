@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.DeleteSale
 {
-    class Class1
+    class DeleteSaleRequest
     {
     }
 }

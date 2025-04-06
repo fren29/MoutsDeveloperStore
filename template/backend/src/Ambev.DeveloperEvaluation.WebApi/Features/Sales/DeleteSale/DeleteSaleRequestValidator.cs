@@ -1,6 +1,6 @@
 ﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.DeleteSale
 {
-    public class Class
+    public class DeleteSaleRequestValidator
     {
     }
 }
