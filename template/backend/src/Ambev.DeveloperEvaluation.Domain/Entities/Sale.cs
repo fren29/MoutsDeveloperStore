@@ -1,4 +1,7 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Enums;
+﻿using System;
+using System.Collections.Generic;
+using Ambev.DeveloperEvaluation.Domain.Enums;
+using Ambev.DeveloperEvaluation.Domain.Exceptions;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
@@ -14,20 +17,45 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 
         //public SaleStatus Status { get; set; } = SaleStatus.Active;
 
-        //public List<SaleItem> Items { get; set; } = new();
+        public List<SaleItem> Items { get; set; } = [];
 
-        //public decimal TotalAmount => CalculateTotal();
+        public decimal TotalAmount => CalculateTotal();
 
-        //private decimal CalculateTotal()
-        //{
-        //    decimal total = 0;
-        //    foreach (var item in Items)
-        //    {
-        //        if (!item.IsCancelled)
-        //            total += item.TotalAmount;
-        //    }
-        //    return total;
-        //}
+        public void AddItem(Guid productId, string productName, int quantity, decimal unitPrice)
+        {
+            if (quantity < 1)
+                throw new DomainException("Quantity must be at least 1.");
+            if (quantity > 20)
+                throw new DomainException("Cannot sell more than 20 items of the same product.");
+
+            decimal discount = 0;
+            if (quantity >= 10)
+                discount = 0.20m * quantity * unitPrice;
+            else if (quantity >= 4)
+                discount = 0.10m * quantity * unitPrice;
+
+            var item = new SaleItem
+            {
+                ProductId = productId,
+                ProductName = productName,
+                Quantity = quantity,
+                UnitPrice = unitPrice,
+                Discount = discount
+            };
+
+            Items.Add(item);
+        }
+
+        private decimal CalculateTotal()
+        {
+            decimal total = 0;
+            foreach (var item in Items)
+            {
+                if (!item.IsCancelled)
+                    total += item.TotalAmount;
+            }
+            return total;
+        }
 
         //public void Cancel()
         //{
