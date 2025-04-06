@@ -1,12 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ambev.DeveloperEvaluation.ORM.Mapping
 {
-    class SaleItemConfiguration
+    public class SaleConfiguration : IEntityTypeConfiguration<Sale>
     {
+        public void Configure(EntityTypeBuilder<Sale> builder)
+        {
+            builder.ToTable("Sales");
+            builder.HasKey(s => s.Id);
+
+            builder.Property(s => s.SaleNumber).IsRequired();
+            builder.Property(s => s.Date).IsRequired();
+            builder.Property(s => s.CustomerId).IsRequired();
+            builder.Property(s => s.CustomerName).IsRequired();
+            builder.Property(s => s.BranchId).IsRequired();
+            builder.Property(s => s.BranchName).IsRequired();
+            builder.Property(s => s.Status).IsRequired();
+
+            builder.HasMany(s => s.Items)
+                   .WithOne()
+                   .HasForeignKey("SaleId")
+                   .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }
