@@ -19,9 +19,10 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale
         public async Task<GetSaleResponse> Handle(GetSaleRequest request, CancellationToken cancellationToken)
         {
             var sale = await _saleRepository.GetByIdAsync(request.Id);
-            return sale == null
-                ? throw new NotFoundException($"Sale with ID {request.Id} not found")
-                : new GetSaleResponse
+            if (sale == null)
+                throw new NotFoundException($"Sale with ID {request.Id} not found");
+
+            return new GetSaleResponse
             {
                 Id = sale.Id,
                 SaleNumber = sale.SaleNumber,
