@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +17,13 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         {
             await _context.Set<Sale>().AddAsync(sale);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Sale?> GetByIdAsync(Guid id)
+        {
+            return await _context.Set<Sale>()
+                .Include(s => s.Items)
+                .FirstOrDefaultAsync(s => s.Id == id);
         }
     }
 }

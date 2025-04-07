@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.DeleteSale
 {
-    public class DeleteSaleHandler : IRequestHandler<DeleteSaleRequest>
+    public class DeleteSaleHandler : IRequestHandler<DeleteSaleRequest, Unit>
     {
         private readonly ISaleRepository _saleRepository;
 
