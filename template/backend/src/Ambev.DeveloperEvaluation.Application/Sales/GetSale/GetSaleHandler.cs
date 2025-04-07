@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale
 {
-    public class GetSaleHandler : IRequestHandler<GetSaleRequest, GetSaleResponse>
+    public class GetSaleHandler : IRequestHandler<GetSaleQuery, GetSaleResult>
     {
         private readonly ISaleRepository _saleRepository;
 
@@ -16,13 +16,13 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale
             _saleRepository = saleRepository;
         }
 
-        public async Task<GetSaleResponse> Handle(GetSaleRequest request, CancellationToken cancellationToken)
+        public async Task<GetSaleResult> Handle(GetSaleQuery request, CancellationToken cancellationToken)
         {
             var sale = await _saleRepository.GetByIdAsync(request.Id);
             if (sale == null)
                 throw new NotFoundException($"Sale with ID {request.Id} not found");
 
-            return new GetSaleResponse
+            return new GetSaleResult
             {
                 Id = sale.Id,
                 SaleNumber = sale.SaleNumber,

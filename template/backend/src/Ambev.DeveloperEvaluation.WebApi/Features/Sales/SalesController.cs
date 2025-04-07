@@ -18,7 +18,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateSaleRequest request)
+        public async Task<IActionResult> Create([FromBody] CreateSaleCommand request)
         {
             var result = await _mediator.Send(request);
             return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
@@ -29,7 +29,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
         {
             try
             {
-                var result = await _mediator.Send(new GetSaleRequest { Id = id });
+                var result = await _mediator.Send(new GetSaleQuery { Id = id });
                 return Ok(result);
             }
             catch (NotFoundException)

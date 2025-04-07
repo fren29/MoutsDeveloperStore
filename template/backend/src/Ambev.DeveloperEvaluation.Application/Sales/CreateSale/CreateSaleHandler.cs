@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 {
-    public class CreateSaleHandler : IRequestHandler<CreateSaleRequest, CreateSaleResponse>
+    public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleResult>
     {
         private readonly ISaleRepository _saleRepository;
 
@@ -13,7 +13,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
             _saleRepository = saleRepository;
         }
 
-        public async Task<CreateSaleResponse> Handle(CreateSaleRequest request, CancellationToken cancellationToken)
+        public async Task<CreateSaleResult> Handle(CreateSaleCommand request, CancellationToken cancellationToken)
         {
             var sale = new Sale
             {
@@ -33,7 +33,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
             sale.RegisterCreatedEvent();
             await _saleRepository.AddAsync(sale);
 
-            return new CreateSaleResponse(sale.Id);
+            return new CreateSaleResult(sale.Id);
         }
     }
 }

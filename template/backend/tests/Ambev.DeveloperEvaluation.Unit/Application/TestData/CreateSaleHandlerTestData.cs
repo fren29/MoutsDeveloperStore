@@ -12,7 +12,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.TestData
             .RuleFor(i => i.Quantity, f => f.Random.Int(1, 20))
             .RuleFor(i => i.UnitPrice, f => f.Random.Decimal(10, 100));
 
-        private static readonly Faker<CreateSaleRequest> requestFaker = new Faker<CreateSaleRequest>()
+        private static readonly Faker<CreateSaleCommand> requestFaker = new Faker<CreateSaleCommand>()
             .RuleFor(r => r.SaleNumber, f => f.Random.AlphaNumeric(10))
             .RuleFor(r => r.Date, f => f.Date.Past())
             .RuleFor(r => r.CustomerId, f => Guid.NewGuid())
@@ -21,6 +21,6 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.TestData
             .RuleFor(r => r.BranchName, f => f.Company.CompanyName())
             .RuleFor(r => r.Items, f => itemFaker.Generate(f.Random.Int(1, 3)));
 
-        public static CreateSaleRequest GenerateValidRequest() => requestFaker.Generate();
+        public static CreateSaleCommand GenerateValidRequest() => requestFaker.Generate();
     }
 }

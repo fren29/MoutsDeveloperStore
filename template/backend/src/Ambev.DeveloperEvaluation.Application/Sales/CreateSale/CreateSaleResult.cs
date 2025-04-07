@@ -1,8 +1,8 @@
 ﻿namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 {
-    public class CreateSaleResponse
+    public class CreateSaleResult
     {
-        public CreateSaleResponse(Guid id)
+        public CreateSaleResult(Guid id)
         {
             Id = id;
         }

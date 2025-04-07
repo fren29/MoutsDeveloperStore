@@ -2,7 +2,7 @@
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 {
-    public class CreateSaleValidator : AbstractValidator<CreateSaleRequest>
+    public class CreateSaleValidator : AbstractValidator<CreateSaleCommand>
     {
         public CreateSaleValidator()
         {

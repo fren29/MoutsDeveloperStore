@@ -1,6 +1,6 @@
 ﻿namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale
 {
-    public class GetSaleResponse
+    public class GetSaleResult
     {
         public Guid Id { get; set; }
         public string SaleNumber { get; set; } = string.Empty;
