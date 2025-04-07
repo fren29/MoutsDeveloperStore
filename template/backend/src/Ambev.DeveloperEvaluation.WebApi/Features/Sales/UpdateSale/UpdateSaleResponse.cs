@@ -1,6 +1,9 @@
-﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale
+﻿using System;
+
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale
 {
-    public class class23450
+    public class UpdateSaleResponse
     {
+        public Guid Id { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale
 {
-    public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleResponse>
+    public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleResult>
     {
         private readonly ISaleRepository _saleRepository;
 
@@ -13,14 +13,14 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale
             _saleRepository = saleRepository;
         }
 
-        public async Task<UpdateSaleResponse> Handle(UpdateSaleCommand request, CancellationToken cancellationToken)
+        public async Task<UpdateSaleResult> Handle(UpdateSaleCommand request, CancellationToken cancellationToken)
         {
             var sale = await _saleRepository.GetByIdAsync(request.Id);
             if (sale == null)
                 throw new NotFoundException($"Sale with ID {request.Id} not found");
 
             sale.RegisterModifiedEvent();
-            return new UpdateSaleResponse(sale.Id);
+            return new UpdateSaleResult(sale.Id);
         }
     }
 }

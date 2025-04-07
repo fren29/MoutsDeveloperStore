@@ -2,9 +2,9 @@
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale
 {
-    public class UpdateSaleResponse
+    public class UpdateSaleResult
     {
-        public UpdateSaleResponse(Guid id)
+        public UpdateSaleResult(Guid id)
         {
             Id = id;
         }
