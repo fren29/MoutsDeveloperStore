@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using Ambev.DeveloperEvaluation.Domain.Exceptions;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using MediatR;
 
@@ -18,7 +17,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale
         {
             var sale = await _saleRepository.GetByIdAsync(request.Id);
             if (sale == null)
-                return null;
+                throw new NotFoundException($"Sale with ID {request.Id} not found");
 
             sale.RegisterModifiedEvent();
             return new UpdateSaleResponse(sale.Id);

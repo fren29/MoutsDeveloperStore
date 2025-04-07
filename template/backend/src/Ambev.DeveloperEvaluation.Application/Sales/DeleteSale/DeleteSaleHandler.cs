@@ -15,10 +15,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.DeleteSale
         public async Task<Unit> Handle(DeleteSaleRequest request, CancellationToken cancellationToken)
         {
             var sale = await _saleRepository.GetByIdAsync(request.Id);
-            if (sale != null)
-            {
-                sale.Cancel();
-            }
+            sale?.Cancel();
 
             return Unit.Value;
         }
