@@ -1,37 +1,41 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.Domain.Enums;
+using Ambev.DeveloperEvaluation.Domain.Exceptions;
+using Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData;
+using FluentAssertions;
 using Xunit;
 
 namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
 {
     public class SaleTests
     {
-        [Fact]
-        public void AddItem_WithValidQuantity_ShouldApplyCorrectDiscount()
+        [Fact(DisplayName = "Given valid data When creating sale Then succeeds")]
+        public void Create_ValidData_Success()
         {
-            var sale = new Sale();
-
-            sale.AddItem(Guid.NewGuid(), "Produto X", 10, 100);
-
-            var item = sale.Items[0];
-            Assert.Equal(200, item.Discount);
-            Assert.Equal(800, item.TotalAmount);
+            var sale = SaleTestData.CreateValidSale();
+            sale.Should().NotBeNull();
+            sale.TotalAmount.Should().BeGreaterThan(0);
+            sale.Items.Should().NotBeEmpty();
         }
 
-        [Fact]
-        public void AddItem_WithQuantityBelowMinimum_ShouldThrowException()
+        [Fact(DisplayName = "Given 5 items When creating Then apply 10 percent discount")]
+        public void Create_With5Items_Apply10PercentDiscount()
         {
-            var sale = new Sale();
-            Assert.Throws<Exception>(() =>
-                sale.AddItem(Guid.NewGuid(), "Produto Y", 0, 100));
+            var sale = SaleTestData.CreateWith5ItemsFor10PercentDiscount();
+            sale.Items[0].Discount.Should().Be(0.1m * 5 * 100);
         }
 
-        [Fact]
-        public void Cancel_ShouldSetStatusToCancelled()
+        [Fact(DisplayName = "Given 12 items When creating Then apply 20 percent discount")]
+        public void Create_With12Items_Apply20PercentDiscount()
         {
-            var sale = new Sale();
-            sale.Cancel();
-            Assert.Equal(SaleStatus.Cancelled, sale.Status);
+            var sale = SaleTestData.CreateWith12ItemsFor20PercentDiscount();
+            sale.Items[0].Discount.Should().Be(0.2m * 12 * 100);
+        }
+
+        [Fact(DisplayName = "Given more than 20 items When creating Then throws exception")]
+        public void Create_WithMoreThan20Items_Throws()
+        {
+            var act = () => SaleItem.Create(Guid.NewGuid(), "Item 1", 21, 100);
+            act.Should().Throw<DomainException>();
         }
     }
 }

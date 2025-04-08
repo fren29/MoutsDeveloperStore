@@ -15,15 +15,14 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 
         public async Task<CreateSaleResult> Handle(CreateSaleCommand request, CancellationToken cancellationToken)
         {
-            var sale = new Sale
-            {
-                SaleNumber = request.SaleNumber,
-                Date = request.Date,
-                CustomerId = request.CustomerId,
-                CustomerName = request.CustomerName,
-                BranchId = request.BranchId,
-                BranchName = request.BranchName
-            };
+            var sale = Sale.Create(
+                request.SaleNumber,
+                request.Date,
+                request.CustomerId,
+                request.CustomerName,
+                request.BranchId,
+                request.BranchName,
+                []);
 
             foreach (var item in request.Items)
             {
@@ -31,7 +30,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
             }
 
             sale.RegisterCreatedEvent();
-            await _saleRepository.AddAsync(sale);
+            await _saleRepository.CreateAsync(sale, cancellationToken);
 
             return new CreateSaleResult(sale.Id);
         }

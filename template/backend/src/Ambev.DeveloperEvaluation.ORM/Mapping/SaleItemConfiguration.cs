@@ -9,7 +9,9 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
         public void Configure(EntityTypeBuilder<SaleItem> builder)
         {
             builder.ToTable("SaleItems");
-            builder.HasKey(i => i.Id);
+            
+            builder.HasKey(u => u.Id);
+            builder.Property(u => u.Id).HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");
 
             builder.Property(i => i.ProductId).IsRequired();
             builder.Property(i => i.ProductName).IsRequired();

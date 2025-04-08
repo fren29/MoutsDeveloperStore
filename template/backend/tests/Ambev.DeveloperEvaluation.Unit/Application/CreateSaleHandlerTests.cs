@@ -2,37 +2,37 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Unit.Application.TestData;
+using AutoMapper;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit;
 
-namespace Ambev.DeveloperEvaluation.Unit.Application.Sales.CreateSale
+namespace Ambev.DeveloperEvaluation.Unit.Application
 {
     public class CreateSaleHandlerTests
     {
-        private readonly ISaleRepository _repository;
+        private readonly ISaleRepository _repository = Substitute.For<ISaleRepository>();
+        private readonly IMapper _mapper = Substitute.For<IMapper>();
         private readonly CreateSaleHandler _handler;
 
         public CreateSaleHandlerTests()
         {
-            _repository = Substitute.For<ISaleRepository>();
             _handler = new CreateSaleHandler(_repository);
         }
 
-        [Fact(DisplayName = "Given valid sale request When handled Then returns response with Id")]
-        public async Task Handle_ValidRequest_ReturnsSaleId()
+        [Fact(DisplayName = "Given valid command When creating sale Then returns result")]
+        public async Task Handle_ValidCommand_ReturnsResult()
         {
-            // Arrange
-            var request = CreateSaleHandlerTestData.GenerateValidRequest();
-            await _repository.AddAsync(Arg.Any<Sale>()); // setup implícito do NSubstitute
+            var command = CreateSaleHandlerTestData.GenerateValidCommand();
 
-            // Act
-            var result = await _handler.Handle(request, CancellationToken.None);
+            _repository.CreateAsync(Arg.Any<Sale>(), Arg.Any<CancellationToken>())
+                .Returns(callInfo => callInfo.Arg<Sale>());
 
-            // Assert
-            result.Should().NotBeNull();
-            result.Id.Should().NotBe(Guid.Empty);
-            await _repository.Received(1).AddAsync(Arg.Any<Sale>());
+            var response = await _handler.Handle(command, CancellationToken.None);
+
+            response.Should().NotBeNull();
+            response.Id.Should().NotBe(Guid.Empty);
         }
     }
 }

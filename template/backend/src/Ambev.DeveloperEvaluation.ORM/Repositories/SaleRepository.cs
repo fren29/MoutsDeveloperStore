@@ -12,11 +12,11 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         {
             _context = context;
         }
-
-        public async Task AddAsync(Sale sale)
+        public async Task<Sale> CreateAsync(Sale sale, CancellationToken cancellationToken)
         {
-            await _context.Set<Sale>().AddAsync(sale);
-            await _context.SaveChangesAsync();
+            await _context.Set<Sale>().AddAsync(sale, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+            return sale;
         }
 
         public async Task<Sale?> GetByIdAsync(Guid id)

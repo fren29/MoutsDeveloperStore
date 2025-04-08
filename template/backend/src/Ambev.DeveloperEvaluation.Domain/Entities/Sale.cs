@@ -24,27 +24,33 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 
         public void AddItem(Guid productId, string productName, int quantity, decimal unitPrice)
         {
-            if (quantity < 1)
-                throw new DomainException("Quantity must be at least 1.");
-            if (quantity > 20)
-                throw new DomainException("Cannot sell more than 20 items of the same product.");
+            var item = SaleItem.Create(productId, productName, quantity, unitPrice);
+            Items.Add(item);
+        }
 
-            decimal discount = 0;
-            if (quantity >= 10)
-                discount = 0.20m * quantity * unitPrice;
-            else if (quantity >= 4)
-                discount = 0.10m * quantity * unitPrice;
-
-            var item = new SaleItem
+        public static Sale Create(
+            string saleNumber,
+            DateTime date,
+            Guid customerId,
+            string customerName,
+            Guid branchId,
+            string branchName,
+            IEnumerable<SaleItem> items)
+        {
+            var sale = new Sale
             {
-                ProductId = productId,
-                ProductName = productName,
-                Quantity = quantity,
-                UnitPrice = unitPrice,
-                Discount = discount
+                Id = Guid.NewGuid(),
+                SaleNumber = saleNumber,
+                Date = date,
+                CustomerId = customerId,
+                CustomerName = customerName,
+                BranchId = branchId,
+                BranchName = branchName,
+                Items = items.ToList()
             };
 
-            Items.Add(item);
+            sale.RegisterCreatedEvent();
+            return sale;
         }
 
         public void RegisterCreatedEvent()
