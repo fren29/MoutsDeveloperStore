@@ -1,6 +1,10 @@
-﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale
+﻿using System;
+using System.Collections.Generic;
+using MediatR;
+
+namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 {
-    public class CreateSaleRequest
+    public class CreateSaleCommand : IRequest<CreateSaleResult>
     {
         public string SaleNumber { get; set; } = string.Empty;
         public DateTime Date { get; set; }
@@ -8,10 +12,11 @@
         public string CustomerName { get; set; } = string.Empty;
         public Guid BranchId { get; set; }
         public string BranchName { get; set; } = string.Empty;
-        public List<CreateSaleItemRequest> Items { get; set; } = new();
+
+        public List<CreateSaleItemDto> Items { get; set; } = new();
     }
 
-    public class CreateSaleItemRequest
+    public class CreateSaleItemDto
     {
         public Guid ProductId { get; set; }
         public string ProductName { get; set; } = string.Empty;

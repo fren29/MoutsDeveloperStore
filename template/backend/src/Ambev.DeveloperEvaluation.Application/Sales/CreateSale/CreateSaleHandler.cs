@@ -1,12 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 {
-    class CreateSaleHandler
+    public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleResult>
     {
+        private readonly ISaleRepository _saleRepository;
+
+        public CreateSaleHandler(ISaleRepository saleRepository)
+        {
+            _saleRepository = saleRepository;
+        }
+
+        public async Task<CreateSaleResult> Handle(CreateSaleCommand request, CancellationToken cancellationToken)
+        {
+            var sale = Sale.Create(
+                request.SaleNumber,
+                request.Date,
+                request.CustomerId,
+                request.CustomerName,
+                request.BranchId,
+                request.BranchName,
+                []);
+
+            foreach (var item in request.Items)
+            {
+                sale.AddItem(item.ProductId, item.ProductName, item.Quantity, item.UnitPrice);
+            }
+
+            sale.RegisterCreatedEvent();
+            await _saleRepository.CreateAsync(sale, cancellationToken);
+
+            return new CreateSaleResult(sale.Id);
+        }
     }
 }

@@ -1,6 +1,14 @@
-﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale
+﻿using AutoMapper;
+using Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
+
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale
 {
-    public class UpdateSaleResponse
+    public class UpdateSaleProfile : Profile
     {
+        public UpdateSaleProfile()
+        {
+            CreateMap<UpdateSaleRequest, UpdateSaleCommand>();
+            CreateMap<UpdateSaleResult, UpdateSaleResponse>();
+        }
     }
 }
